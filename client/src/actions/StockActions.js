@@ -9,7 +9,6 @@ export const getStockData = ({ symbols, from, to }) => {
     .then((response) => {
       response.json()
       .then((json) => {
-        console.log(json);
         dispatch({type: STOCK_FETCH_SUCCESS, payload: json});
       });
     });

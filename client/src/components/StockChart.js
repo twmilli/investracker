@@ -1,44 +1,108 @@
 import React, { Component } from 'react';
-import { ResponsiveContainer, LineChart, Line } from 'recharts';
+import { ResponsiveContainer,
+  LineChart,
+  Line,
+  Tooltip,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend } from 'recharts';
 import { connect } from 'react-redux';
 import './StockChart.css';
 import { getStockData } from '../actions';
+import CustomizedXAxis from './CustomizedXAxis';
+import CustomTooltip from './CustomTooltip';
 
-
-const data = [
-      {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-      {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-      {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-];
-
+const lineColors = [
+  '#4464AD',
+  '#A4B0F5',
+  '#F58F29',
+  '#7D4600',
+  '#36494E',
+  '#4D5057',
+  '#D81E5B',
+  '#3A3335',
+  '#D81E5B',
+  '#C200FB'
+]
 class StockChart extends Component {
   componentWillMount() {
+    const { list, from, to } = this.props;
     this.props.getStockData({
-      symbols:['NASDAQ:AAPL'],
-      from: '2014-09-27T06:23:41.000Z',
-      to: '2015-09-27T06:23:41.000Z'
+      symbols: list,
+      from: from.toISOString(),
+      to: to.toISOString()
     });
   }
+  mapToArray(obj) {
+    let i=0, arr=[];
+    for (var ob in obj){
+      arr[i++]=obj[ob];
+    }
+    return arr;
+  }
+
+  mapDataToGraph() {
+    const { stockData } = this.props;
+    let stockArr = this.mapToArray(stockData);
+    if (stockArr.length <= 0){
+      return;
+    }
+
+
+    let chartData = [];
+    for (let i=0; i < stockArr[0].length; i++) {
+      let chartObject = {date: stockArr[0][i].date};
+      for (let j=0; j < stockArr.length; j++){
+        let symbol = stockArr[j][i].symbol;
+        chartObject[symbol] = stockArr[j][i].close;
+      }
+      chartData.push(chartObject);
+    }
+    this.data = chartData;
+  }
+
+  renderLines() {
+    return (
+      this.props.list.map((stock, key) => {
+        return (
+          <Line
+          type="monotone"
+          dot={false}
+          key={stock}
+          dataKey={stock}
+          stroke={lineColors[key]} />
+        );
+      })
+    );
+  }
   render() {
-    console.log(this.props);
+    this.mapDataToGraph();
     return (
       <div className="stock-chart-container">
         <ResponsiveContainer>
-          <LineChart data={data}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <LineChart data={this.data}>
+          <Tooltip content={<CustomTooltip external={external}/>} />
+          <XAxis dataKey="date" tick={<CustomizedXAxis />} />
+          <YAxis tick= {{stroke: 'white', strokeWidth: 1}}/>
+          <CartesianGrid stroke="white" vertical={false}/>
+          <Legend verticalAlign='top'/>
+            {this.renderLines()}
           </LineChart>
         </ResponsiveContainer>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
-  return {stocks: state.stocks}
+  const { stockData, list, from, to } = state.stocks;
+  return {
+    stockData,
+    list,
+    from,
+    to
+  };
 };
 
 export default connect(mapStateToProps, {getStockData})(StockChart);

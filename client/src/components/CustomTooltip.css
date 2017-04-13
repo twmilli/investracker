@@ -1,0 +1,26 @@
+.custom-tooltip {
+  width: 150px;
+    margin: 0;
+    line-height: 18px;
+    border-radius: 5px;
+    border: 10px solid '#4464AD';
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    font-size: 12px;
+}
+.custom-tooltip  .label {
+  margin: 0;
+  color: #666;
+  font-weight: 700;
+}
+
+.data-label{
+  display: inline-block;
+}
+.circle{
+  display: inline-block;
+  border-radius:50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+}
