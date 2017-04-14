@@ -10,8 +10,11 @@ import { ResponsiveContainer,
 import { connect } from 'react-redux';
 import './StockChart.css';
 import { getStockData } from '../actions';
-import CustomizedXAxis from './CustomizedXAxis';
-import CustomTooltip from './CustomTooltip';
+import {
+  CustomXAxis,
+  CustomTooltip,
+  CustomYAxisLabel
+} from './ChartComponents';
 
 const lineColors = [
   '#4464AD',
@@ -83,8 +86,8 @@ class StockChart extends Component {
         <ResponsiveContainer>
           <LineChart data={this.data}>
           <Tooltip content={<CustomTooltip external={external}/>} />
-          <XAxis dataKey="date" tick={<CustomizedXAxis />} />
-          <YAxis tick= {{stroke: 'white', strokeWidth: 1}}/>
+          <XAxis dataKey="date" tick={<CustomXAxis />} tickCount={7}/>
+          <YAxis label={<CustomYAxisLabel label='Stock Price ($)'/>} tickCount={7} tick={{stroke: 'white', strokeWidth: 1}}/>
           <CartesianGrid stroke="white" vertical={false}/>
           <Legend verticalAlign='top'/>
             {this.renderLines()}
