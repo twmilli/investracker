@@ -7,36 +7,25 @@ import { ResponsiveContainer,
   YAxis,
   CartesianGrid,
   Legend } from 'recharts';
-import { connect } from 'react-redux';
-import './StockChart.css';
-import { getStockData } from '../actions';
+
 import {
   CustomXAxis,
   CustomTooltip,
   CustomYAxisLabel
 } from './ChartComponents';
-
 const lineColors = [
-  '#4464AD',
-  '#A4B0F5',
-  '#F58F29',
-  '#7D4600',
-  '#36494E',
-  '#4D5057',
-  '#D81E5B',
-  '#3A3335',
+  '#7fc97f',
+  '#beaed4',
+  '#fcc086',
+  '#ffff99',
+  '#386cb0',
+  '#f0027f',
+  '#bf5b17',
+  '#666666',
   '#D81E5B',
   '#C200FB'
 ]
 class StockChart extends Component {
-  componentWillMount() {
-    const { list, from, to } = this.props;
-    this.props.getStockData({
-      symbols: list,
-      from: from.toISOString(),
-      to: to.toISOString()
-    });
-  }
   mapToArray(obj) {
     let i=0, arr=[];
     for (var ob in obj){
@@ -44,21 +33,41 @@ class StockChart extends Component {
     }
     return arr;
   }
+  shouldComponentUpdate(nextProps) {
+    if (this.props.error !== nextProps.error){
+      return false;
+    }
+    return true;
+  }
 
+  maxLengthOfArrays(arr){
+    var max = -Infinity;
+    var index = -1;
+    arr.forEach(function(a, i){
+      if (a.length>max) {
+        max = a.length;
+        index = i;
+      }
+    });
+    return({ maxIndex: max , indexOfMax: index });
+  }
   mapDataToGraph() {
     const { stockData } = this.props;
     let stockArr = this.mapToArray(stockData);
     if (stockArr.length <= 0){
       return;
     }
-
+    const { maxIndex, indexOfMax } = this.maxLengthOfArrays(stockArr);
 
     let chartData = [];
-    for (let i=0; i < stockArr[0].length; i++) {
-      let chartObject = {date: stockArr[0][i].date};
+    for (let i=0; i < maxIndex; i++) {
+      let chartObject = {date: stockArr[indexOfMax][i].date};
       for (let j=0; j < stockArr.length; j++){
-        let symbol = stockArr[j][i].symbol;
-        chartObject[symbol] = stockArr[j][i].close;
+        const correctedIndex = i-(maxIndex - stockArr[j].length);
+        if (correctedIndex >= 0){
+          let symbol = stockArr[j][correctedIndex].symbol;
+          chartObject[symbol] = stockArr[j][correctedIndex].close;
+        }
       }
       chartData.push(chartObject);
     }
@@ -82,7 +91,6 @@ class StockChart extends Component {
   render() {
     this.mapDataToGraph();
     return (
-      <div className="stock-chart-container">
         <ResponsiveContainer>
           <LineChart data={this.data}>
           <Tooltip content={<CustomTooltip external={external}/>} />
@@ -93,19 +101,8 @@ class StockChart extends Component {
             {this.renderLines()}
           </LineChart>
         </ResponsiveContainer>
-      </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const { stockData, list, from, to } = state.stocks;
-  return {
-    stockData,
-    list,
-    from,
-    to
-  };
-};
-
-export default connect(mapStateToProps, {getStockData})(StockChart);
+export default StockChart;

@@ -4,6 +4,7 @@
   width: 90%;
   margin: auto;
   height: 500px;
+  padding-bottom: 100px;
 }
 
 .recharts-legend-wrapper {
@@ -13,4 +14,10 @@
 
 .recharts-cartesian-axis-ticks{
   font-size: 12px;
+}
+
+.error{
+  color: red;
+  width: 100%;
+  text-align: center;
 }

@@ -24,7 +24,6 @@ class CustomXAxis extends Component {
 };
 class CustomYAxisLabel extends Component {
   render() {
-    console.log(this.props);
     const { height, label } = this.props;
     return(
       <g transform={`translate(${5},${height/2+10})`}>
@@ -39,12 +38,15 @@ class CustomTooltip extends Component {
     const { payload } = this.props;
     return (
       payload.map((stock) => {
-        return (
-          <div key={stock.name}>
-            <div className="circle" style={{ backgroundColor: stock.stroke }}></div>
-            <div className="data-label" >{`${stock.name}: ${stock.payload[stock.name]}`}</div>
-          </div>
-        )
+          if (!stock.payload[stock.name]) {
+            return null;
+          }
+          return (
+            <div key={stock.name}>
+              <div className="circle" style={{ backgroundColor: stock.stroke }}></div>
+              <div className="data-label" >{`${stock.name}: ${stock.payload[stock.name]}`}</div>
+            </div>
+        );
       })
     )
   }
