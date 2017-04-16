@@ -1,4 +1,4 @@
-#Investracker
+# Investracker
 
 User Stories:
 * I can view a graph displaying the recent trend lines for each added stock
