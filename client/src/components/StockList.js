@@ -10,7 +10,6 @@ class StockList extends Component {
   handleAddButton() {
     const { stockText, from, to, list } = this.props;
     if (list.includes(stockText)) {
-      console.log('TRUE');
       this.props.setError('Stock code has already been added');
     } else{
       this.props.addStock({ symbol: stockText, from: from.toISOString(), to: to.toISOString() });
