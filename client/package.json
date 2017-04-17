@@ -24,5 +24,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "engines": {
+    "node": "v7.2.0",
+    "npm": "4.4.4",
+}
 }
