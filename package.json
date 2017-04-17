@@ -21,5 +21,10 @@
   },
   "devDependencies": {
     "concurrently": "^3.4.0"
+  },
+  "engines": {
+    "node": "v7.2.0",
+    "npm": "4.4.4",
+    "express": "^4.15.2"
   }
 }
