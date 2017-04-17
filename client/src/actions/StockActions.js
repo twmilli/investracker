@@ -10,7 +10,7 @@ import {
 
 export const getStockData = ({ symbols, from, to }) => {
   return (dispatch) => {
-    fetch(`http://localhost:3001/api/?symbols=${symbols.toString()}&from=${from}&to=${to}`)
+    fetch(`api/?symbols=${symbols.toString()}&from=${from}&to=${to}`)
     .then((response) => {
       response.json()
       .then((json) => {
@@ -24,7 +24,7 @@ export const addStock = ({ symbol, from, to }) => {
   const symbols = [symbol];
   const ERROR_TIME = 3000; //milliseconds
   return (dispatch) => {
-    fetch(`http://localhost:3001/api/?symbols=${symbols.toString()}&from=${from}&to=${to}`)
+    fetch(`api/?symbols=${symbols.toString()}&from=${from}&to=${to}`)
     .then((response) => {
       response.json()
       .then((json) => {
@@ -73,7 +73,7 @@ export const setDate = ({ symbols, from, to, option }) => {
     dateCopy.setYear(dateCopy.getFullYear()-n);
   }
   return (dispatch) => {
-    fetch(`http://localhost:3001/api/?symbols=${symbols.toString()}&from=${dateCopy.toISOString()}&to=${to}`)
+    fetch(`/api/?symbols=${symbols.toString()}&from=${dateCopy.toISOString()}&to=${to}`)
     .then((response) => {
       response.json()
       .then((json) => {
