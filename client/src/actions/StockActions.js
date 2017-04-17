@@ -3,7 +3,9 @@ import {
   ADD_STOCK,
   STOCK_TEXT_UPDATE,
   SET_ERROR,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  REMOVE_STOCK,
+  SET_DATE
 } from './types';
 
 export const getStockData = ({ symbols, from, to }) => {
@@ -48,11 +50,35 @@ export const stockTextUpdate = ({ value }) => {
 }
 
 export const setError = (error) => {
-  const ERROR_TIME = 3000; 
+  const ERROR_TIME = 3000;
   return ((dispatch) => {
     dispatch({type: SET_ERROR, payload: error});
     setTimeout(() => {
       dispatch({ type: CLEAR_ERROR });
     }, ERROR_TIME);
   });
+}
+
+export const removeStock = ({ symbol }) => {
+  return { type: REMOVE_STOCK, payload: symbol };
+}
+
+export const setDate = ({ symbols, from, to, option }) => {
+  const dateCopy = new Date(to.getTime());
+  const unit = option.slice(option.length-1);
+  const n = parseInt(option.slice(0, option.length-1), 10);
+  if (unit === 'm') {
+    dateCopy.setMonth(dateCopy.getMonth()-n);
+  } else{
+    dateCopy.setYear(dateCopy.getFullYear()-n);
+  }
+  return (dispatch) => {
+    fetch(`http://localhost:3001/api/?symbols=${symbols.toString()}&from=${dateCopy.toISOString()}&to=${to}`)
+    .then((response) => {
+      response.json()
+      .then((json) => {
+        dispatch({type: SET_DATE, payload: {from: dateCopy, dateOption: option, data: json}});
+      });
+    });
+  };
 }

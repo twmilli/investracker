@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addStock, getStockData, stockTextUpdate, setError } from '../actions';
+import { addStock, getStockData, stockTextUpdate, setError, removeStock } from '../actions';
 import './StockList.css';
 
 class StockList extends Component {
-  componentWillMount() {
 
+  handleRemoveButton(symbol){
+    this.props.removeStock({ symbol });
   }
   handleAddButton() {
     const { stockText, from, to, list } = this.props;
@@ -20,6 +21,7 @@ class StockList extends Component {
       return (
         <div key={symbol} className='stock-display'>
           <h2>{symbol}</h2>
+          <button className='x-btn' onClick={this.handleRemoveButton.bind(this, symbol)}>x</button>
         </div>
       );
     });
@@ -48,4 +50,5 @@ const mapStateToProps = (state) => {
     stockText: state.stocks.stockText
   });
 }
-export default connect(mapStateToProps, { addStock, getStockData, stockTextUpdate, setError })(StockList);
+export default connect(mapStateToProps,
+  { addStock, getStockData, stockTextUpdate, setError, removeStock })(StockList);

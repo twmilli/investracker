@@ -21,3 +21,28 @@
   width: 100%;
   text-align: center;
 }
+
+.time-btn{
+  width: 30px;
+  background-color: #777575;
+  color: rgb(195, 195, 196);
+  padding: 4px;
+  border: none;
+  margin: 5px;
+  outline: none;
+}
+
+.time-btn:hover, .time-btn:active, .selected{
+  background-color: white;
+  color: #323131;
+  cursor: pointer;
+  outline: none;
+}
+
+.time-btn:hover{
+  box-shadow: 0 5px 12px 0 rgba(156, 154, 154, 0.3);
+}
+
+.time-btn:active{
+  box-shadow: 0 10px 20px 0 rgba(156, 154, 154, 0.4);
+}

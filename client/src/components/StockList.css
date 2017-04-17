@@ -11,6 +11,7 @@
 
 .stock-display h2{
   margin: 10px;
+  display: inline-block;
 }
 
 
@@ -66,4 +67,19 @@
 
 .add-stock button:active {
    box-shadow: 0 10px 20px 0 rgba(156, 154, 154, 0.4);
+}
+
+.x-btn{
+  outline: none;
+  border: none;
+  color: white;
+  background: none;
+  font-size: 1.5em;
+  display: inline-block;
+  float: right;
+}
+
+.x-btn:active, .x-btn:hover{
+  color: #c2c1c1;
+  cursor: pointer;
 }

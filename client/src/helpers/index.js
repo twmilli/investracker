@@ -5,3 +5,5 @@ export const formatDate = (date) => {
   const month = months[date.getMonth()];
   return(`${day}, ${month} ${date.getDate()}, ${date.getFullYear()}`);
 }
+
+export const timeOptions = ['1m','3m','6m','1y','2y','3y'];
