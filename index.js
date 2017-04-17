@@ -3,8 +3,8 @@ const app = require('./server/app').app;
 const express = require('express');
 
 app.set('port', (process.env.PORT || 3001));
-
-app.use('/', express.static('client/build'));
+process.env.PWD = process.cwd();
+app.use('/', express.static(process.env.PWD + '/client/build'));
 
 
 app.listen(app.get('port'), () => {
