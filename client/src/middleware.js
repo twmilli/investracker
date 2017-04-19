@@ -5,7 +5,7 @@ let socket = null;
 export const addStockMiddleware = (store) => {
   return next => action => {
     const result = next(action);
-    if (socket && action.meta.remote && !action.fromRemote){
+    if (socket && action.meta && action.meta.remote && !action.fromRemote){
       socket.emit('action', action);
     }
 
