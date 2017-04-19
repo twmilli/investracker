@@ -35,8 +35,8 @@ export const addStock = ({ symbol, from, to }) => {
           }, ERROR_TIME);
           return;
         }
-        dispatch({type: ADD_STOCK, payload: symbol});
-        dispatch({type: STOCK_FETCH_SUCCESS, payload: json});
+        dispatch({type: ADD_STOCK, payload: symbol, meta:{ remote: true }});
+        dispatch({type: STOCK_FETCH_SUCCESS, payload: json, meta: { remote: true }});
       })
       .catch((error) => {
         console.log(error);
@@ -60,7 +60,7 @@ export const setError = (error) => {
 }
 
 export const removeStock = ({ symbol }) => {
-  return { type: REMOVE_STOCK, payload: symbol };
+  return { type: REMOVE_STOCK, payload: symbol, meta: { remote: true } };
 }
 
 export const setDate = ({ symbols, from, to, option }) => {

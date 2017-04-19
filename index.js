@@ -9,6 +9,17 @@ if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(process.env.PWD + '/client/build'));
 }
 
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log('listening on port ' + app.get('port'));
+});
+
+const io = require('socket.io').listen(server);
+
+io.on('connection', (socket) => {
+
+  socket.on('action', (action) => {
+    socket.broadcast.emit('action', action);
+  });
+
+  console.log('CONNECTED');
 });

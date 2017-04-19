@@ -31,7 +31,7 @@ const StockReducer = (state=INITIAL_STATE, action) => {
     case STOCK_TEXT_UPDATE:
       return { ...state, stockText: action.payload };
     case SET_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, error: action.payload, stockText:'' };
     case CLEAR_ERROR:
       return { ...state, error: ''};
     case REMOVE_STOCK:

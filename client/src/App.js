@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 import Store from './Store';
 import Dashboard from './components/Dashboard';
 import './App.css';
+import startSocket from './middleware';
+
+startSocket(Store);
 
 class App extends Component {
   render() {
